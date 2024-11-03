@@ -1,4 +1,4 @@
-
+<?php
     function get_protocol() {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
             return "https://";
@@ -9,6 +9,5 @@
 
     $protocol = get_protocol();
     $host = $_SERVER['HTTP_HOST'];
-    $project_folder = '/tskmgr/'; 
-    define('$base_url', $protocol . $host . $project_folder);
-
+    $project_folder = '/tskmgr/';
+    define('BASE_URL', $protocol . $host . $project_folder);

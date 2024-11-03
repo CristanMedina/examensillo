@@ -12,12 +12,16 @@ $id = $_GET['id'] ?? null;
 
 if ($action === 'edit' && $id) {
     $controller->edit($id);
-} elseif ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+} elseif ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
     $controller->update($id, $_POST['title'], $_POST['description']);
 } elseif ($action === 'delete' && $id) {
     $controller->delete($id);
-} elseif ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller->create($_POST['title'], $_POST['description']);
+} elseif ($action === 'create') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controller->create($_POST['title'], $_POST['description']);
+    } else {
+        $controller->showCreateForm();
+    }
 } else {
     $controller->index();
 }

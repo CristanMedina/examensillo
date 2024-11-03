@@ -1,47 +1,41 @@
 <?php
 class Task {
-    private $db;
+    private PDO $db;
 
-    public function __construct($db) {
+    public function __construct(PDO $db) {
         $this->db = $db;
     }
 
-    public function getAllTasks() {
-        //Esta consulta esta iniciada pero no dice que hacer
+    //Consultas incompletas
+    public function getAllTasks(): array {
         $sql = "SELECT * FROM tasks";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTaskById($id) {
+    public function getTaskById(int $id): ?array {
         $sql = "SELECT * FROM tasks WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createTask($title, $description) {
+    public function createTask(string $title, string $description): bool {
         $sql = "INSERT INTO tasks (title, description) VALUES (:title, :description)";
-        // Falto preparar la ejecucuion en la base de datos
         $stmt = $this->db->prepare($sql);
-        // Se deben poner los campos correctos de la base de datos
-        $stmt->execute(['title' => $title, 'description' => $description]);
+        return $stmt->execute(['title' => $title, 'description' => $description]);
     }
 
-    public function updateTask($id, $title, $description) {
-        // Falto acompletar la consulta
+    public function updateTask(int $id, string $title, string $description): bool {
         $sql = "UPDATE tasks SET title = :title, description = :description WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        // El campo "task_name" debe ser title
-        $stmt->execute(['id' => $id, 'title' => $title, 'description' => $description]);
+        return $stmt->execute(['id' => $id, 'title' => $title, 'description' => $description]);
     }
 
-    // Falto poner la variable $id
-    public function deleteTask($id) {
+    public function deleteTask(int $id): bool {
         $sql = "DELETE FROM tasks WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['id' => $id]);
+        return $stmt->execute(['id' => $id]);
     }
-
 }
